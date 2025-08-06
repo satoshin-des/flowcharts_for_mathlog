@@ -1,0 +1,40 @@
+---
+config:
+  theme: redux
+---
+
+flowchart TD
+    A(["Start"]) --> B[[Gram-Schmidtの直交化]]
+    B --> C[k:=2]
+    C --> D{k≤n}
+    D -- No --> E(Terminate)
+    D -- Yes --> F["j:=1"]
+    subgraph サイズ簡約
+        F --> G{j≤k-1}
+        G -- Yes --> H{"|μₖⱼ|>1/2"}
+        H -- Yes --> I["𝙗ₖ:=𝙗ₖ-[μₖⱼ]𝙗ⱼ"]
+        I --> J[["Update GSO"]]
+        J --> K["j++"]
+        H -- No --> K
+        K --> G
+    end
+    G -- No --> L[M:=0]
+    subgraph "i<-argmaxⱼ Sⱼₖ"
+      L --> M[j:=1]
+      M --> N{j≤k-1}
+      N -- Yes --> O{"M≥Sⱼₖ"}
+      O -- Yes --> PP["M:=Sⱼₖ"]
+      PP --> P[i:=j]
+      P --> Q[j++]
+      O -- No --> Q
+      Q --> N
+    end
+    N -- No --> R{"Sᵢₖ≤(1-η)SS({𝙗₁,...,𝙗ₙ})"}
+    R -- Yes --> S[k++]
+    R -- No --> T["{𝙗₁,...,𝙗ₙ}:=σᵢₖ({𝙗₁,...,𝙗ₙ})"]
+    T --> U[Update GSO]
+    U --> V["k:=max(i,2)"]
+    S --> W((( )))
+    V --> W
+    W --> D
+
