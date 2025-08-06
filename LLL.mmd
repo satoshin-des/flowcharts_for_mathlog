@@ -1,0 +1,31 @@
+---
+
+config:
+
+  theme: redux
+
+---
+
+flowchart TD
+    A(["Start"]) --> B["k:=2"]
+    B --> BB[[Gram-Schmidtの直交化]]
+    BB --> C{"k≤n"}
+    C -- Yes --> D["j:=1"]
+    subgraph サイズ簡約
+        D --> E{"j≤k-1"}
+        E -- Yes --> F{"|μₖⱼ|>1/2"}
+        F -- Yes --> G["𝙗ₖ:=𝙗ₖ-[μₖⱼ]𝙗ⱼ"]
+        G --> H[["Update GSO"]]
+        F -- No --> I["j++"]
+    end
+    H --> I
+    I --> E
+    E -- No --> J{"Lovasz条件"}
+    J -- No --> K["𝙗ₖ₋₁ ↔ 𝙗ₖ"]
+    K --> L[["Update GSO"]]
+    L --> M["k--"]
+    J -- Yes --> N["k++"]
+    M --> O(((" ")))
+    N --> O(((" ")))
+    O --> C
+    C -- No --> P(["Terminate"])
