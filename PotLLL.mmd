@@ -1,0 +1,42 @@
+---
+config:
+      theme: redux
+---
+
+flowchart TD
+    A([Start])
+    A --> LLL[[LLL簡約]]
+    LLL --> B[[Gram-Schmditの直交化]]
+    B --> C[k:=1]
+    C --> D{k≤n}
+    D -- No --> E([Terminate])
+    D -- Yes --> F["j:=1"]
+    subgraph サイズ簡約
+        F --> G{j≤k-1}
+        G -- Yes --> H{"|μₖⱼ|>1/2"}
+        H -- Yes --> I["𝙗ₖ:=𝙗ₖ-[μₖⱼ]𝙗ⱼ"]
+        I --> J[["Update GSO"]]
+        J --> K["j++"]
+    end
+    H -- No --> K
+    K --> G
+    G -- No --> L["m:=Pot({𝙗₁,...,𝙗ₙ})"]
+    subgraph "i<-argminⱼ Pot(σⱼₖ({𝙗₁,...,𝙗ₙ})"
+        L --> M[j:=1]
+        M --> N{j≤k}
+        N -- Yes --> O{"Pot(σⱼₖ({𝙗₁,...,𝙗ₙ}))≤m"}
+        O -- Yes --> PP["m:=Pot(σⱼₖ({𝙗₁,...,𝙗ₙ}))"]
+        PP --> P[i:=j]
+        O -- No --> Q[j++]
+    end
+    P --> Q
+    Q --> N
+    N -- No --> R{potentialの条件}
+    R -- Yes --> S[k++]
+    R -- No --> T["{𝙗₁,...,𝙗ₙ}:=σᵢₖ({𝙗₁,...,𝙗ₙ})"]
+    T --> TT[[Update GSO]]
+    TT --> U[k:=i]
+    U --> V(((" ")))
+    S --> V
+
+    V --> D
