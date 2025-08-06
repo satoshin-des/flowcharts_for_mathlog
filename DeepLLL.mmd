@@ -1,0 +1,34 @@
+---
+config:
+      theme: redux
+---
+
+flowchart TD
+    A([Start])
+    A --> B[[Gram-Schmditの直交化]]
+    B --> C[k:=2]
+    C --> D{k≤n}
+    D -- No --> E([Terminate])
+    D -- Yes --> F["j:=1"]
+    subgraph サイズ簡約
+      F --> G{j≤k-1}
+      G -- Yes --> H{"|μₖⱼ|>1/2"}
+      H -- Yes --> I["𝙗ₖ:=𝙗ₖ-[μₖⱼ]𝙗ⱼ"]
+      I --> J[["Update GSO"]]
+      J --> K["j++"]
+    end
+    H -- No --> K
+    K --> G
+    G -- No --> L[i:=1]
+    L --> M{"`i< k`"}
+    M -- No --> N[k++]
+    M -- Yes --> O{deep-exchange条件}
+    O -- Yes --> P[i++]
+    O -- No --> Q[deep-insertion σᵢₖ]
+    Q --> R[[Update GSO]]
+    R --> S["k:=max{i-1,1}"]
+    P --> T(((" ")))
+    S --> T
+    T --> M
+
+    N --> D
